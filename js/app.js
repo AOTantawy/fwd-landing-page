@@ -54,13 +54,6 @@ function getAllNavElements() {
   return allNavigationElements;
 }
 
-function buildNavigation() {
-  allNavigationElements = getAllNavElements();
-  allNavigationElements.forEach((element) => {
-    navigationList.appendChild(element);
-  });
-}
-
 function whichSectionCurrentlyViewed() {
   currentSection = sectionElements[sectionElements.length - 1];
   for (const element of sectionElements) {
@@ -73,12 +66,21 @@ function whichSectionCurrentlyViewed() {
   return currentSection.id;
 }
 
-function removeAllActiveSections() {
-  for (const element of sectionElements) {
-    element.classList.remove("your-active-class");
-  }
+/**
+ * End Helper Functions
+ * Begin Main Functions
+ *
+ */
+
+// build the nav
+function buildNavigation() {
+  allNavigationElements = getAllNavElements();
+  allNavigationElements.forEach((element) => {
+    navigationList.appendChild(element);
+  });
 }
 
+// Add class 'active' to section when near top of viewport
 function addCurrentActiveSectionById(sectionId) {
   for (const element of sectionElements) {
     if (element.id == sectionId) {
@@ -87,24 +89,11 @@ function addCurrentActiveSectionById(sectionId) {
   }
 }
 
-function addViewedSectionListner() {
-  document.onscroll = function (e) {
-    const currentActiveId = whichSectionCurrentlyViewed();
-    removeAllActiveSections();
-    addCurrentActiveSectionById(currentActiveId);
-  };
+function removeAllActiveSections() {
+  for (const element of sectionElements) {
+    element.classList.remove("your-active-class");
+  }
 }
-/**
- * End Helper Functions
- * Begin Main Functions
- *
- */
-
-// build the nav
-buildNavigation();
-
-// Add class 'active' to section when near top of viewport
-addViewedSectionListner();
 
 // Scroll to anchor ID using scrollTO event
 
@@ -115,7 +104,13 @@ addViewedSectionListner();
  */
 
 // Build menu
+buildNavigation();
 
 // Scroll to section on link click
 
 // Set sections as active
+document.onscroll = function (e) {
+  const currentActiveId = whichSectionCurrentlyViewed();
+  removeAllActiveSections();
+  addCurrentActiveSectionById(currentActiveId);
+};
