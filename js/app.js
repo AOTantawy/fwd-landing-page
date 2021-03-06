@@ -28,23 +28,23 @@ const navigationList = document.querySelector("#navbar__list");
  */
 
 // the below helper funtions for building navigation (links)
-function addLinkElement(linkName, linkReference) {
+const addLinkElement = (linkName, linkReference) => {
   const linkElement = document.createElement("a");
   linkElement.setAttribute("alt", linkName);
   linkElement.setAttribute("class", "menu__link");
   linkElement.textContent = linkName;
   linkElement.href = "#" + linkReference;
   return linkElement;
-}
+};
 
-function addNavigationElement(navData, navId) {
+const addNavigationElement = (navData, navId) => {
   const navigationElement = document.createElement("li");
   const navigationLinkElement = addLinkElement(navData, navId);
   navigationElement.appendChild(navigationLinkElement);
   return navigationElement;
-}
+};
 
-function getAllNavElements() {
+const getAllNavElements = () => {
   let allNavigationElements = [];
   sectionElements.forEach((element) => {
     const navigationElement = addNavigationElement(
@@ -54,10 +54,10 @@ function getAllNavElements() {
     allNavigationElements.push(navigationElement);
   });
   return allNavigationElements;
-}
+};
 
 // the below helper function for getting active section
-function whichSectionCurrentlyViewed() {
+const whichSectionCurrentlyViewed = () => {
   currentSection = sectionElements[sectionElements.length - 1];
   for (const element of sectionElements) {
     elementBound = element.getBoundingClientRect();
@@ -68,15 +68,15 @@ function whichSectionCurrentlyViewed() {
     }
   }
   return currentSection.id;
-}
+};
 
 // the below helper function for scrolling to the targeted element
-function getSectionPositionById(sectionId) {
+const getSectionPositionById = (sectionId) => {
   const sectionElement = document.querySelector(sectionId);
   return (
     sectionElement.offsetHeight + sectionElement.offsetTop - window.innerHeight // to get offset of the top when the section bottom touch window bottom
   );
-}
+};
 
 /**
  * End Helper Functions
@@ -85,35 +85,36 @@ function getSectionPositionById(sectionId) {
  */
 
 // build the nav
-function buildNavigation() {
+const buildNavigation = () => {
   allNavigationElements = getAllNavElements();
   allNavigationElements.forEach((element) => {
     navigationList.appendChild(element);
   });
-}
+};
 
 // Add class 'active' to section when near top of viewport
-function addCurrentActiveSectionById(sectionId) {
-  for (const element of sectionElements) {
-    if (element.id == sectionId) {
+const addCurrentActiveSectionById = (sectionId) => {
+  sectionElements.forEach((element) => {
+    if (element.id === sectionId) {
       element.classList.add("your-active-class");
     }
-  }
-}
+  });
+};
 
-function removeAllActiveSections() {
-  for (const element of sectionElements) {
+const removeAllActiveSections = () => {
+  sectionElements.forEach((element) => {
     element.classList.remove("your-active-class");
-  }
-}
+  });
+};
 
 // Scroll to anchor ID using scrollTO event
-function scrollToSection(positionY) {
+const scrollToSection = (positionY) => {
   window.scrollTo({
     top: positionY,
     behavior: "smooth",
   });
-}
+};
+
 /**
  * End Main Functions
  * Begin Events
@@ -126,16 +127,16 @@ buildNavigation();
 // Scroll to section on link click
 document.querySelectorAll(".menu__link").forEach((link) => {
   link.onclick = (e) => {
-    e.preventDefault();
     linkTextContent = e.target.textContent;
     linkTextContent = "#" + linkTextContent.split(" ").join("").toLowerCase();
     sectionPositionY = getSectionPositionById(linkTextContent);
     scrollToSection(sectionPositionY);
+    e.preventDefault();
   };
 });
 
 // Set sections as active
-document.onscroll = function (e) {
+document.onscroll = (e) => {
   const currentActiveId = whichSectionCurrentlyViewed();
   removeAllActiveSections();
   addCurrentActiveSectionById(currentActiveId);

@@ -52,11 +52,13 @@ main {
   margin: 10vh 1em 10vh;
 }
 
-.main-hero {
+.main__hero {
   min-height: 40vh;
   padding-top: 3em;
 }
-
+.main__hero > h1 {
+  text-align: center;
+}
 section {
   position: relative;
   min-height: 80vh;
@@ -101,12 +103,13 @@ section {
 /* Footer Styles */
 .page__footer {
   background: #000;
-  padding: 3em;
+  padding: 1em;
   color: #fff;
 }
 
 .page__footer p {
   color: #fff;
+  text-align: center;
 }
 
 /* ---- Theme Rules ---- */
