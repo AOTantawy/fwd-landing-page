@@ -31,7 +31,7 @@ function addLinkElement(linkName, linkReference) {
   linkElement.setAttribute("alt", linkName);
   linkElement.setAttribute("class", "menu__link");
   linkElement.textContent = linkName;
-  linkElement.href = "#"+linkReference;
+  linkElement.href = "#" + linkReference;
   return linkElement;
 }
 
@@ -60,6 +60,40 @@ function buildNavigation() {
     navigationList.appendChild(element);
   });
 }
+
+function whichSectionCurrentlyViewed() {
+  currentSection = sectionElements[sectionElements.length - 1];
+  for (const element of sectionElements) {
+    elementBound = element.getBoundingClientRect();
+    if (elementBound.y >= 0) {
+      currentSection = element;
+      break;
+    }
+  }
+  return currentSection.id;
+}
+
+function removeAllActiveSections() {
+  for (const element of sectionElements) {
+    element.classList.remove("your-active-class");
+  }
+}
+
+function addCurrentActiveSectionById(sectionId) {
+  for (const element of sectionElements) {
+    if (element.id == sectionId) {
+      element.classList.add("your-active-class");
+    }
+  }
+}
+
+function addViewedSectionListner() {
+  document.onscroll = function (e) {
+    const currentActiveId = whichSectionCurrentlyViewed();
+    removeAllActiveSections();
+    addCurrentActiveSectionById(currentActiveId);
+  };
+}
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -70,6 +104,7 @@ function buildNavigation() {
 buildNavigation();
 
 // Add class 'active' to section when near top of viewport
+addViewedSectionListner();
 
 // Scroll to anchor ID using scrollTO event
 
