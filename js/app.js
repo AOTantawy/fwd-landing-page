@@ -66,6 +66,13 @@ function whichSectionCurrentlyViewed() {
   return currentSection.id;
 }
 
+function getSectionPositionById(sectionId) {
+  const sectionElement = document.querySelector(sectionId);
+  return (
+    (sectionElement.offsetHeight + sectionElement.offsetTop) - window.innerHeight
+  );
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -96,7 +103,12 @@ function removeAllActiveSections() {
 }
 
 // Scroll to anchor ID using scrollTO event
-
+function scrollToSection(positionY) {
+  window.scrollTo({
+    top: positionY,
+    behavior: "smooth",
+  });
+}
 /**
  * End Main Functions
  * Begin Events
@@ -107,6 +119,15 @@ function removeAllActiveSections() {
 buildNavigation();
 
 // Scroll to section on link click
+document.querySelectorAll(".menu__link").forEach((link) => {
+  link.onclick = (e) => {
+    e.preventDefault();
+    linkTextContent = e.target.textContent;
+    linkTextContent = "#" + linkTextContent.split(" ").join("").toLowerCase();
+    sectionPositionY = getSectionPositionById(linkTextContent);
+    scrollToSection(sectionPositionY);
+  };
+});
 
 // Set sections as active
 document.onscroll = function (e) {
