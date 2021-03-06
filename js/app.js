@@ -26,6 +26,8 @@ const navigationList = document.querySelector("#navbar__list");
  * Start Helper Functions
  *
  */
+
+// the below helper funtions for building navigation (links)
 function addLinkElement(linkName, linkReference) {
   const linkElement = document.createElement("a");
   linkElement.setAttribute("alt", linkName);
@@ -54,10 +56,12 @@ function getAllNavElements() {
   return allNavigationElements;
 }
 
+// the below helper function for getting active section
 function whichSectionCurrentlyViewed() {
   currentSection = sectionElements[sectionElements.length - 1];
   for (const element of sectionElements) {
     elementBound = element.getBoundingClientRect();
+    // get the first viewed element
     if (elementBound.y >= 0) {
       currentSection = element;
       break;
@@ -66,10 +70,11 @@ function whichSectionCurrentlyViewed() {
   return currentSection.id;
 }
 
+// the below helper function for scrolling to the targeted element
 function getSectionPositionById(sectionId) {
   const sectionElement = document.querySelector(sectionId);
   return (
-    (sectionElement.offsetHeight + sectionElement.offsetTop) - window.innerHeight
+    sectionElement.offsetHeight + sectionElement.offsetTop - window.innerHeight // to get offset of the top when the section bottom touch window bottom
   );
 }
 
